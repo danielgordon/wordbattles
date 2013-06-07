@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'dictionary'
+require './dictionary.rb'
 
 class Round
   attr_accessor :score
@@ -16,6 +16,7 @@ class Round
       if played_word == word
         return true
       end
+    end
     return false
   end
   
@@ -26,6 +27,7 @@ class Round
         count += 1
       end
     end
+    return count
   end
 
   def word_valid?(word)
@@ -40,11 +42,11 @@ class Round
   def add_points(word)
     case words_of_length(word)
     when 0
-      @points += 30
+      @score += 30
     when 1
-      @points += 60
+      @score += 60
     when 2
-      @points += 90
+      @score += 90
     end
   end
 
@@ -59,3 +61,4 @@ class Round
       return false 
     end 
   end
+end
