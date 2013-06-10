@@ -2,7 +2,7 @@
 
 require './round.rb'
 
-dictionary_name = "./dictionary"
+dictionary_name = "./enable1.txt"
 
 word = ""
 round = Round.new(dictionary_name)

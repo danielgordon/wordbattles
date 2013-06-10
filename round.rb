@@ -5,6 +5,7 @@ require './dictionary.rb'
 class Round
   attr_accessor :score
 
+#TODO: WB uses buckets of 4 to 13+.  This doesn't account for that. 
   def initialize(file)
     @score = 0
     @words_played = Array.new()
@@ -40,18 +41,12 @@ class Round
   end
 
   def add_points(word)
-    case words_of_length(word)
-    when 0
-      @score += 30
-    when 1
-      @score += 60
-    when 2
-      @score += 90
-    end
+    @score += 30 + (words_of_length(word.length)) * 30
   end
 
   def check_word(word)
     len = word.length
+#TODO: doesn't tell you what's wrong with the word, fix
     if ((len > 3) and (words_of_length(len) < 3) and (not word_played?(word)) \
       and (word_valid?(word)))
       
