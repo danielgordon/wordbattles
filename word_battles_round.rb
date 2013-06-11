@@ -1,17 +1,18 @@
 #!/usr/bin/env ruby
 
 require './dictionary.rb'
+require './util.rb'
 
-class Round
+module WordResult
+  WORD_OK = 0
+  WORD_TOO_SHORT = 1
+  WORD_TOO_MANY_OF_LENGTH = 2
+  WORD_ALREADY_PLAYED = 3
+  WORD_INVALID = 4
+end
+
+class WordBattlesRound
   attr_accessor :score
-
-  module WordResult
-    WORD_OK = 0
-    WORD_TOO_SHORT = 1
-    WORD_TOO_MANY_OF_LENGTH = 2
-    WORD_ALREADY_PLAYED = 3
-    WORD_INVALID = 4
-  end
 
   def initialize(file)
     @score = 0
@@ -20,13 +21,7 @@ class Round
   end
 
   def word_bucket(word)
-    bucket = -1 
-    if (word.length > 13)
-      bucket = 9
-    elsif (word.length > 3)
-      bucket = word.length - 4
-    end
-    return bucket
+    return Util::truncated_length(word) - 4
   end
 
   def word_played?(word)
@@ -56,14 +51,20 @@ class Round
   end
 
   def check_word(word)
-#TODO: doesn't tell you what's wrong with the word, fix
-    len = word.length
-    if ((len > 3) and (words_of_length(word) < 3) and (not word_played?(word)) \
-      and (word_valid?(word)))
-      
-      add_word(word)
+    word_result = WordResult::WORD_OK
+    if (word.length < 4)
+      word_result = WordResult::WORD_TOO_SHORT
+    elsif (words_of_length(word) >= 3)
+      word_result = WordResult::WORD_TOO_MANY_OF_LENGTH
+    elsif (word_played?(word))
+      word_result = WordResult::WORD_ALREADY_PLAYED
+    elsif (not word_valid?(word))
+      word_result = WordResult::WORD_INVALID 
     else
-      return false 
-    end 
+      word_result = WordResult::WORD_OK
+      add_word(word)
+    end
+
+    return word_result 
   end
 end
