@@ -14,10 +14,11 @@ end
 class WordBattlesRound
   attr_accessor :score
 
-  def initialize(file)
+  def initialize(dictionary_file, prefix)
     @score = 0
     @words_played = Array.new(10) { Array.new() }
-    @word_dictionary = Dictionary.new(file)
+    @word_dictionary = Dictionary.new(dictionary_file)
+    @prefix = prefix
   end
 
   def word_bucket(word)
