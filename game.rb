@@ -1,4 +1,5 @@
 require './word_battles_round.rb'
+require './prefix_list.rb'
 
 class WordBattlesGame
   attr_accessor :score
@@ -9,7 +10,7 @@ class WordBattlesGame
     @dictionary_file = dictionary_file 
     @prefixes = PrefixList.new(prefix_file)
     @score = 0
-    @round = 1
+    @round_num = 1
   end
 
   def start_round()
@@ -27,6 +28,6 @@ class WordBattlesGame
 
   def end_round()
     @score += @round.score
-    round += 1
+    @round_num += 1
   end
 end
