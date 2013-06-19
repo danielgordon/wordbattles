@@ -8,7 +8,8 @@ module WordResult
   WORD_TOO_SHORT = 1
   WORD_TOO_MANY_OF_LENGTH = 2
   WORD_ALREADY_PLAYED = 3
-  WORD_INVALID = 4
+  WORD_WRONG_PREFIX = 4
+  WORD_INVALID = 5
 end
 
 class WordBattlesRound
@@ -23,6 +24,10 @@ class WordBattlesRound
 
   def word_bucket(word)
     return Util::truncated_length(word) - 4
+  end
+
+  def matches_prefix?(word)
+    return word[0, 3].eql?(prefix)
   end
 
   def word_played?(word)
@@ -59,6 +64,8 @@ class WordBattlesRound
       word_result = WordResult::WORD_TOO_MANY_OF_LENGTH
     elsif (word_played?(word))
       word_result = WordResult::WORD_ALREADY_PLAYED
+    elsif (not matches_prefix?(word))
+      word_result = WordResult::WORD_WRONG_PREFIX
     elsif (not word_valid?(word))
       word_result = WordResult::WORD_INVALID 
     else
