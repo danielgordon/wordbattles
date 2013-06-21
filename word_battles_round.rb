@@ -27,12 +27,12 @@ class WordBattlesRound
   end
 
   def matches_prefix?(word)
-    return word[0, 3].eql?(prefix)
+    return word[0, 3].eql?(@prefix)
   end
 
   def word_played?(word)
     @words_played[word_bucket(word)].each do |played_word|
-      if played_word == word
+      if played_word.eql?(word)
         return true
       end
     end

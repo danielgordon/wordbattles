@@ -7,17 +7,20 @@ prefix_list_name = "./sample_prefixes"
 
 word = ""
 game = WordBattlesGame.new(dictionary_name, prefix_list_name)
+game.start_round
 puts "Round 1, fight!  Prefix is " + game.prefix.to_s
-while (!word.eql?("q") and !word.eql?("end"))
+while (!word.eql?("q"))
   puts "Enter word (end to end round): "
   word = gets.chomp
   if (word.eql?("end"))
     puts "Final round score: " + game.round_score.to_s
-    game.end_round()
-    if (game.round > 3)
+    game.end_round
+    if (game.round_num > 3)
       puts "Game over!  Final score: " + game.score.to_s
+      break
     else
-      puts "Round " + game.round.to_s + ", fight!  Prefix is " + 
+      game.start_round
+      puts "Round " + game.round_num.to_s + ", fight!  Prefix is " + 
         game.prefix.to_s
     end
   else
